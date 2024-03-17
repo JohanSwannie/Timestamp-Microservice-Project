@@ -17,7 +17,6 @@ app.get("/api/:date?", (req, res) => {
   let inputDate = req.params.date;
   let isDateEmpty = inputDate == "" || inputDate == null;
   let isValidDate = Date.parse(inputDate);
-  console.log(/^[0-9]+$/.test(inputDate));
   let isUnixValid = /^[0-9]+$/.test(inputDate);
   let displayUnix = 0;
   let displayUtc = "";
