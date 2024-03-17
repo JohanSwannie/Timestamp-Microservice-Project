@@ -13,7 +13,7 @@ app.get("/api/hello", function (req, res) {
   res.json({ greeting: "hello API" });
 });
 
-app.get("/api/:date", (req, res) => {
+app.get("/api1/:date", (req, res) => {
   console.log("test Date");
   const date = req.params.date;
   res.json({
@@ -22,13 +22,13 @@ app.get("/api/:date", (req, res) => {
   });
 });
 
-app.get("/api/:timestamp", (req, res) => {
+app.get("/api2/:timestamp", (req, res) => {
   console.log("test Timestamp");
   const timestamp = req.params.timestamp;
   if (!isNaN(Number(timestamp)) && timestamp.length === 13) {
     return res.json({
       unix: timestamp,
-      utc: new Date(timestamp).toUTCString(),
+      utc: new Date(Number(timestamp)).toUTCString(),
     });
   }
   if (new Date(timestamp).toUTCString() !== "Invalid Date") {
