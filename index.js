@@ -13,16 +13,31 @@ app.get("/api/hello", function (req, res) {
   res.json({ greeting: "hello API" });
 });
 
-app.get("/api1/:date", (req, res) => {
-  console.log("test Date");
-  const date = req.params.date;
-  res.json({
-    unix: new Date(date).getTime(),
-    utc: new Date(date).toUTCString(),
-  });
+app.get("/api/:date?", (req, res) => {
+  let inputDate = req.params.date;
+  let isDateEmpty = inputDate == "" || inputDate == null;
+  let isValidDate = Date.parse(inputDate);
+  let isUnixValid = /^[0-9]+$/.test(inputDate);
+  let displayUnix = 0;
+  let displayUtc = "";
+  if (isValidDate) {
+    displayUnix = new Date(inputDate);
+    displayUtc = displayUnix.toUTCString();
+    return res.json({ unix: displayUnix.valueOf(), utc: displayUtc });
+  } else if (isNaN(isValidDate) && isUnixValid) {
+    displayUnix = new Date(parseInt(inputDate));
+    displayUtc = displayUnix.toUTCString();
+    return res.json({ unix: displayUnix.valueOf(), utc: displayUtc });
+  } else if (isDateEmpty) {
+    displayUnix = new Date();
+    displayUtc = displayUnix.toUTCString();
+    return res.json({ unix: displayUnix.valueOf(), utc: displayUtc });
+  } else {
+    res.json({ error: "Invalid Date" });
+  }
 });
 
-app.get("/api2/:timestamp", (req, res) => {
+app.get("/api/:timestamp", (req, res) => {
   console.log("test Timestamp");
   const timestamp = req.params.timestamp;
   if (!isNaN(Number(timestamp)) && timestamp.length === 13) {
