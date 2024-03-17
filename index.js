@@ -17,9 +17,11 @@ app.get("/api/:date?", (req, res) => {
   let inputDate = req.params.date;
   let isDateEmpty = inputDate == "" || inputDate == null;
   let isValidDate = Date.parse(inputDate);
+  console.log(/^[0-9]+$/.test(inputDate));
   let isUnixValid = /^[0-9]+$/.test(inputDate);
   let displayUnix = 0;
   let displayUtc = "";
+
   if (isValidDate) {
     displayUnix = new Date(inputDate);
     displayUtc = displayUnix.toUTCString();
@@ -37,7 +39,7 @@ app.get("/api/:date?", (req, res) => {
   }
 });
 
-app.get("/api/:timestamp", (req, res) => {
+app.get("/api/:timestamp?", (req, res) => {
   console.log("test Timestamp");
   const timestamp = req.params.timestamp;
   if (!isNaN(Number(timestamp)) && timestamp.length === 13) {
