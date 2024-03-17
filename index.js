@@ -39,7 +39,6 @@ app.get("/api/:date?", (req, res) => {
 });
 
 app.get("/api/:timestamp?", (req, res) => {
-  console.log("test Timestamp");
   const timestamp = req.params.timestamp;
   if (!isNaN(Number(timestamp)) && timestamp.length === 13) {
     return res.json({
